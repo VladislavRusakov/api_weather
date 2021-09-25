@@ -1,0 +1,62 @@
+import requests
+import json
+import os
+import dotenv
+from typing import Dict
+
+
+dotenv.load_dotenv('.env')
+
+API_KEY = os.environ['OPENWEATHERMAP_API_KEY']
+API_KEY2 = os.environ['WEATHERBIT_API_KEY']
+
+
+def get_data_from_weather_api(city: str, appid1: str = API_KEY, appid2: str = API_KEY2) -> Dict[str, str]:
+    """Получает данные с API weathermap, формирует словарь с ключами name, timezone, lon, lat, temperature"""
+    url = "https://api.openweathermap.org/data/2.5/weather"
+
+    response = requests.get(url, params={
+        "q": city,
+        "appid": appid1,
+        "units": "metric",
+        })
+
+    data = {'openweathermap':{
+            'name':response.json()['name'],
+            'timezone': response.json()['timezone'],
+            'lon': response.json()['coord']['lon'],
+            'lat': response.json()['coord']['lat'],
+            'tempearture' : response.json()['main']['temp'],
+            'source' : url
+    }}
+
+    url = 'https://api.weatherbit.io/v2.0/current'
+    
+    response = requests.get(url, params={
+        'city': city,
+        "key": appid2,
+    })
+
+    data["weatherbit"] = {
+        'name':response.json()['data'][0]['city_name'],
+        'timezone': response.json()['data'][0]['timezone'],
+        'lon': response.json()['data'][0]['lon'],
+        'lat': response.json()['data'][0]['lat'],
+        'tempearture' : response.json()['data'][0]['temp'],
+        'source':url
+    }
+    
+    return data
+
+
+# def city_list_call(city_list: str):
+#     with open(city_list, 'r', encoding='utf-8') as f:
+#         data = json.load(f)
+
+#     for _ in data:
+#         try:
+#             print(get_data_from_weather_api(_['name'], appid=API_KEY))
+#         except KeyboardInterrupt:
+#             print('Остановлено пользователем')
+#             exit()
+# city_list_call('city_data.txt')
