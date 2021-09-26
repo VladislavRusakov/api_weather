@@ -16,7 +16,7 @@ def index_page():
 
 @app.post("/api")
 def data_from_frontend_form(city: str = Form(...)):
-    """"""
+    """Позволяет получить данные с помощью запроса из формы"""
     try:
         response = get_data_from_weather_api(city)
         print(response)
@@ -26,10 +26,9 @@ def data_from_frontend_form(city: str = Form(...)):
 
 
 
-@app.get("/api/{pk}")
-def api_response(pk: str):
-    """"""
-    city = pk
+@app.get("/api/{city}")
+def api_response(city: str):
+    """Позволяет получить данные с помощью API"""
     try:
         response = get_data_from_weather_api(city)
         print(response)
