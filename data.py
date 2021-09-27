@@ -1,11 +1,7 @@
 import requests
-import json
 import os
-import dotenv
 from typing import Dict
 
-
-dotenv.load_dotenv('.env')
 
 API_KEY = os.environ['OPENWEATHERMAP_API_KEY']
 API_KEY2 = os.environ['WEATHERBIT_API_KEY']
@@ -48,16 +44,3 @@ def get_data_from_weather_api(city: str, appid1: str = API_KEY, appid2: str = AP
     
 
     return data
-
-
-# def city_list_call(city_list: str):
-#     with open(city_list, 'r', encoding='utf-8') as f:
-#         data = json.load(f)
-
-#     for _ in data:
-#         try:
-#             print(get_data_from_weather_api(_['name'], appid=API_KEY))
-#         except KeyboardInterrupt:
-#             print('Остановлено пользователем')
-#             exit()
-# city_list_call('city_data.txt')
