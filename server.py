@@ -25,7 +25,6 @@ def data_from_frontend_form(city: str = Form(...)):
         return Response("<h1>Incorrect city name</h1>", media_type='text/html')
 
 
-
 @app.get("/api/{city}")
 def api_response(city: str):
     """Позволяет получить данные с помощью API"""

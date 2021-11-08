@@ -8,9 +8,9 @@ API_KEY2 = os.environ['WEATHERBIT_API_KEY']
 
 
 def get_data_from_weather_api(
-                            city: str,
-                            appid1: str = API_KEY,
-                            appid2: str = API_KEY2) -> Dict[str, Dict[str, str]]:
+        city: str,
+        appid1: str = API_KEY,
+        appid2: str = API_KEY2) -> Dict[str, Dict[str, str]]:
     """Получает данные с API сайтов, формирует словарь с ключами
         name, timezone, lon, lat, temperature и source"""
     url = "https://api.openweathermap.org/data/2.5/weather"
