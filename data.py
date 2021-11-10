@@ -1,16 +1,19 @@
 import requests
 import os
 from typing import Dict
+import dotenv
 
 
+dotenv.load_dotenv('.env')
 API_KEY = os.environ['OPENWEATHERMAP_API_KEY']
 API_KEY2 = os.environ['WEATHERBIT_API_KEY']
 
 
 def get_data_from_weather_api(
-        city: str,
+        city: str = "moscow",
         appid1: str = API_KEY,
-        appid2: str = API_KEY2) -> Dict[str, Dict[str, str]]:
+        appid2: str = API_KEY2,
+        mode: str = "normal") -> Dict[str, Dict[str, str]]:
     """Получает данные с API сайтов, формирует словарь с ключами
         name, timezone, lon, lat, temperature и source"""
     url = "https://api.openweathermap.org/data/2.5/weather"
@@ -20,6 +23,9 @@ def get_data_from_weather_api(
         "appid": appid1,
         "units": "metric",
         })
+
+    if mode != "normal":
+        return response.status_code
 
     data = {'openweathermap': {
             'name': response.json()['name'],
